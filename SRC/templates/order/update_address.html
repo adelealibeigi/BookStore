@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% block title-meta %}
+فروشگاه کتاب | ویرایش آدرس
+{% endblock %} {% endblock  %}
+{% block content %}
+<div class="container wow fadeIn" style="margin-top:50px;">
+    <div class="row">
+        <div class="col-md-8 mb-4" style="padding-left:350px">
+          <div class="card">
+            <form method="POST" class="card-body">
+              {% csrf_token %}
+
+              <h3>ویرایش آدرس</h3>
+
+              <div class='hideable_shipping_form'>
+
+               <div class="col-4" style="text-align:right;">
+                  {{form.state|as_crispy_field}}
+                </div>
+
+                <div class="col-2">
+                </div>
+
+                <div class="col-4">
+                  {{form.city|as_crispy_field}}
+                </div>
+
+                <div class="col-2">
+                </div>
+
+                <div class="col-10">
+                  {{form.detail_address|as_crispy_field}}
+                </div>
+
+
+                <div class="col-4">
+                  {{form.code|as_crispy_field}}
+                </div>
+                  <div class="col-8">
+                </div>
+                  <div class="col-4">
+                  {{form.phone_number|as_crispy_field}}
+                </div>
+              </div>
+
+              <button class="btn btn-primary btn-lg btn-block" type="submit">ویرایش </button>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

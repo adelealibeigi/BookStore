@@ -1,0 +1,31 @@
+{% extends 'registration/base.html' %}
+
+{% block main %}
+<h3>تاریخچه سفارشات</h3>
+{% for order in orders %}سفارش
+{{ forloop.counter }}
+*****************
+{{ order.get_total_cost}} تومان
+*****************
+<div class="">
+    {% for order_item in order.items.all %}
+
+    {{ order_item }} کتاب
+
+    <br>
+    {{ order_item.price }} قیمت
+
+    <br>
+    {{ order_item.quantity }} تعداد
+
+    <br>
+    {% endfor %}
+</div>
+<p style="color:#FF7F50;">آدرس:
+{{ order.address.country }},
+{{ order.address.state }},
+{{ order.address.city }},
+{{ order.address.detail_address }}</p>
+<hr>
+{% endfor %}
+{% endblock %}

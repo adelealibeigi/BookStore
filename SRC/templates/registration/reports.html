@@ -1,0 +1,76 @@
+{% extends 'registration/base.html' %}
+
+
+{% block title %}{% block title-meta %}
+فروشگاه کتاب | گزارش
+{% endblock %} {% endblock  %}
+
+
+{% block main %}
+      <h1>{{time}}</h1>
+
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{orders_count}}</h3>
+
+                <p style=" font-size: 15px;">تعداد کل سفارشات</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{earn}} تومان</h3>
+
+                <p style=" font-size: 15px;">درآمد کل سایت</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-money-bill-alt"></i>
+              </div>
+
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <div>
+                  <h3>{{super_users}} |{{staff_users}} | {{simple_users}}</h3>
+                  <p style=" font-size: 15px;">تعداد مدیران|کارمندان|کاربران</p>
+                </div>
+
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{num_discount_book}} | {{num_no_discounts}}</h3>
+
+                <p style=" font-size: 15px;">تعداد محصولات تخفیفدار|بدون تخفیف</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-percent" aria-hidden="true"></i>
+              </div>
+
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+{% endblock %}

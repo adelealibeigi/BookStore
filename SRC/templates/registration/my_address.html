@@ -1,0 +1,98 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% block title-meta %}
+فروشگاه کتاب | آدرس های من
+{% endblock %} {% endblock  %}
+{% block main %}
+
+  <main style="text-align:right;">
+    <div class="container wow fadeIn">
+      <h2 class="my-5 h2 text-center">آدرس های من</h2>
+      <div>
+
+          <div class="card">
+              {% if messages %}
+              {% for m in  messages %}
+              <div class="alert alert-danger" role="alert">{{ m }}</div>
+
+              {% endfor %}
+              {% endif %}
+            <form method="POST" class="card-body">
+              {% csrf_token %}
+
+              <h3>آدرس</h3><hr>
+
+                <div>
+
+                {% if addresses %}
+                  {% for ad in addresses %}
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>آدرس {{forloop.counter}}</h3>
+                                <p>استان: {{ad.state}}</p>
+                                <p>شهر: {{ad.city}}</p>
+                                <p>نشانی پستی: {{ad.detail_address}}</p>
+                                <p> کد پستی: {{ad.code}}</p>
+                                <p> شماره تماس: {{ad.phone_number}}</p>
+                                <a href="{% url 'accounts:update_address' ad.id %}">ویرایش</a>
+                                <a href="{% url 'accounts:delete_address' ad.id %}">حذف</a>
+                            </div>
+                        </div>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+
+              <hr class="mb-4">
+
+
+              <div class="row" >
+
+
+                <div class="col-4">
+                  {{form.state|as_crispy_field}}
+                </div>
+
+                <div class="col-2">
+                </div>
+
+                <div class="col-4">
+                  {{form.city|as_crispy_field}}
+                </div>
+
+                <div class="col-2">
+                </div>
+
+                <div class="col-10">
+                  {{form.detail_address|as_crispy_field}}
+                </div>
+
+
+                <div class="col-4">
+                  {{form.code|as_crispy_field}}
+                </div>
+                  <div class="col-8">
+                </div>
+                  <div class="col-4">
+                  {{form.phone_number|as_crispy_field}}
+                </div>
+              </div>
+
+              <button class="btn btn-primary btn-lg btn-block" type="submit">ثبت </button>
+
+
+            </form>
+
+
+              </div>
+
+            </div>
+
+
+
+    </div>
+  </main>
+
+{% endblock %}

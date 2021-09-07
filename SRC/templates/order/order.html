@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{% block title-meta %}
+فروشگاه کتاب | سفارش
+{% endblock %} {% endblock  %}
+{% block content %}
+<div style="text-align:right;">
+    <div style="
+            background-color:#87CEFA;
+            text-align: center;
+            padding: 200px;
+            padding-top:100px;
+            padding-bottom:215px;
+
+            justify-content: center;
+            ">
+<h2>{{ order.user }} کاربر</h2>
+<h3>سفارش شما ثبت شد</h3>
+{% if messages %}
+      {% for m in  messages %}
+      <div class="alert alert-danger" role="alert">{{ m }}</div>
+      {% endfor %}
+{% endif %}
+
+آدرس:
+{{ order.address.country }},
+{{ order.address.state }},
+{{ order.address.city }},
+{{ order.address.detail_address }}
+
+
+<p style="color:#2F4F4F;">قیمت نهایی:
+    {{order.get_total_cost}}</p>
+<br>
+<form action="{% url 'order:coupon_apply' order.id %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="اعمال">
+</form>
+        </div>
+</div>
+{% endblock %}

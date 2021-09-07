@@ -1,0 +1,75 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} {% block title-meta %}
+افزودن کتاب
+{% endblock %} {% endblock %}
+
+{% block main %}
+
+
+<div class="col-md-12">
+    <div class="card card-primary">
+
+        <div class="card-header">
+            <h3 class="card-title mb-0 float-left">افزودن </h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+
+                <div class="col-4">
+                    {{ form.title|as_crispy_field }}
+                </div>
+
+                <div class="col-4">
+                    {{ form.slug|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.author|as_crispy_field }}
+                </div>
+
+                <div class="col-12">
+                    {{ form.description|as_crispy_field }}
+                </div>
+
+                <div class="col-6">
+                    {{ form.category|as_crispy_field }}
+                </div>
+                <div class="col-6">
+
+                </div>
+
+                <div class="col-4">
+                    {{ form.price|as_crispy_field }}
+                </div>
+
+                <div class="col-4">
+                    {{ form.c_discount|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.p_discount|as_crispy_field }}
+                </div>
+
+                <div class="col-4">
+                    {{ form.inventory|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.cover|as_crispy_field }}
+                </div>
+
+            </div>
+
+            <button class="btn btn-success">
+            ثبت کتاب
+            </button>
+                {% if user.is_staff and request.resolver_match.kwargs.pk %}
+                <a href="{% url 'accounts:book_delete' request.resolver_match.kwargs.pk %}"
+                   class="btn btn-danger">حذف</a>
+                {% endif %}
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

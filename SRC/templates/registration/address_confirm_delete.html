@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="col-md-8 text-center mx-auto" style="margin:100px; margin-bottom:390px;">
+    <div class="card card-danger">
+
+        <div class="card-header">
+            <h3 class="card-title mb-0 float-left">حذف کردن </h3>
+        </div>
+        <div class="card-body py-4">
+
+            <form method="post">{% csrf_token %}
+                <p>از حذف کردن این آدرس مطمئن هستید؟</p>
+
+                <input type="submit" value="تایید" class="btn btn-danger">
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

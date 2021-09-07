@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}{% block title-meta %}
+فروشگاه کتاب | جزییات کتاب
+{% endblock %} {% endblock  %}
+
+{% block content %}
+
+{% if messages %}
+{% for m in  messages %}
+<div class="alert alert-danger container " role="alert" style="
+                                                text-align:center;width:505px;
+                                                " xmlns="http://www.w3.org/1999/html">
+
+{{m}}
+</div>
+{% endfor %}
+{% endif %}
+
+<div style="
+            display: flex;
+            text-align: right;
+            padding: 200px;
+            padding-top:100px;
+            flex-basis: 500px;
+            align-items: center;
+            justify-content: center;
+            ">
+    <div style="padding-right: 15px; padding-top:20px; background-color:#f8f9fa; height:400px">
+        <h6 style="color:#6495ED;"> عنوان: {{product.title}} </h6>
+        <h6> نویسنده:<small> {{product.author}}</small></h6>
+
+        <hr>
+        <h6>{{product.description|safe|striptags}} </h6>
+
+        <hr>
+
+        {% if product.inventory > 0 %}
+            <p>:قیمت</p>
+            <span style="color:red;">{% if product.c_discount and product.c_discount.active %}
+                -   {{product.c_discount.amount}}
+
+            {% elif product.p_discount and product.p_discount.active %}
+
+                %{{product.p_discount.amount}}
+
+            {% endif %}
+            </span>
+
+             {% if product.c_discount and product.c_discount.active or product.p_discount and product.p_discount.active %}
+             <del>{{product.price}} </del>تومان
+             <p>{{product.final_price}} تومان</p>
+             {% else %}
+             <p>{{product.price}} تومان</p>
+             {% endif %}
+
+            <div style="padding-right:10px;
+            padding-top:10px">
+            <form action="{% url 'cart:cart_add' product.id %}" method="POST">
+                {% csrf_token %}
+
+                <button type="submit" style="color:#FFFAF0; background-color:#8FBC8F; border: 2px solid #FAF0E6;">
+                    افزودن به سبد خرید
+                </button>
+
+            </form>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div style="display: flex;background-color:#F8F8FF;">
+        {% thumbnail product.cover "300x300" as img %}
+                  <img src="{{ img.url }}" class="card-img-top" alt="{{ product.title }}"
+                       style=" width: 250px; height:400px">
+        {% endthumbnail %}
+    </div>
+
+</div>
+
+
+{% endblock %}
+

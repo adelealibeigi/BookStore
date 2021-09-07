@@ -1,0 +1,75 @@
+{% extends 'registration/base.html' %}
+
+
+{% block title %}{% block title-meta %}
+ لیست کتاب ها
+{% endblock %} {% endblock  %}
+
+
+{% block main %}
+
+
+  <div class="row">
+      <div class="col-12">
+        {% if object_list %}
+        <div class="card">
+
+          <!-- /.card-header -->
+          <div class="card-body table-responsive p-0" style="height: 550px;">
+            <table class="table table-head-fixed">
+              <thead>
+                <tr>
+                  <th>عنوان</th>
+                  <th>توضیحات</th>
+                  <th>دسته بندی</th>
+                  <th>نویسنده</th>
+                  <th>قیمت اصلی</th>
+                  <th> تخفیف نقدی</th>
+                  <th> تخفیف درصدی</th>
+                  <th>عکس</th>
+                  <th>زمان ایجاد</th>
+                  <th>زمان اپدیت</th>
+                  <th>تعداد موجودی</th>
+                  <th>حذف</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for book in object_list %}
+                <tr>
+                  <td><a href="{% url 'accounts:book_update' book.id %}">{{book.title}}</a></td>
+                  <td>{{book.description | truncatewords:'20'|safe|striptags}}</td>
+                  <td>{{book.category_to_str}}</td>
+                  <td>{{book.author}}</td>
+                  <td>{{book.price}}</td>
+                  {% if book.c_discount %}
+                    <td>{{book.c_discount}}</td>
+                    {% else %}
+                    <td><i class="fas fa-minus" style="color:#007bff;"></i></td>
+                  {% endif %}
+
+                  {% if book.p_discount %}
+                    <td>{{book.p_discount}}</td>
+                    {% else %}
+                    <td><i class="fas fa-minus" style="color:#007bff;"></i></td>
+                  {% endif %}
+                  <td><img src="{{ book.cover.url }}" style='width:100px; height:110px;'></td>
+                  <td>{{book.created}}</td>
+                  <td>{{book.updated}}</td>
+
+                  <td>{{book.inventory}}</td>
+                  <td><a href="{% url 'accounts:book_delete' book.id %}"
+                         class="badge text-danger">کلیک</a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        {% else %}
+        <h3 style="color:blue;">محتوایی وجود ندارد!</h3>
+        {% endif %}
+      </div>
+    </div>
+{% endblock %}

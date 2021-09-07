@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+{% if messages %}
+  {% for m in  messages %}
+<div class="alert alert-danger container " role="alert" style="
+                                                text-align:center;width:505px;
+                                                " xmlns="http://www.w3.org/1999/html">
+    {% if m.tags == 'warning' %}
+    {{ m }}<br>.برای افزودن آدرس
+  <a href="{% url 'accounts:my_address' %}">کلیک</a>
+     کنید
+    {% else %}
+    {{ m }}
+   {% endif %}
+  </div>
+
+  {% endfor %}
+{% endif %}
+{% if item_quantity != 'empty' %}
+
+
+<div class="card container" style="margin-top:50px;margin-bottom:200px;width:1000px;background-color:#FFF0F5;">
+<div style="text-align:center; color:#696969">
+  <h3><i class="bi bi-cart-fill bi--md"></i>
+    سبد خرید
+<i class="bi bi-cart-fill bi--md"></i></h3>
+</div><hr><br>
+<table class="table table-striped table-hover"  style="text-align:center;">
+
+  <thead>
+    <tr>
+      <th scope="col">حدف</th>
+      <th scope="col">قیمت نهایی</th>
+      <th scope="col">قیمت بعد از تخفیف</th>
+      <th scope="col">قیمت واحد</th>
+      <th scope="col">تعداد</th>
+      <th scope="col">بروزرسانی</th>
+      <th scope="col">عنوان کتاب</th>
+      <th scope="col">تصویر</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for item in cart %}
+    <tr>
+      <td><a href="{% url 'cart:cart_remove' item.product.id %}">کلیک</a></td>
+
+      <td>{{ item.total_price }}</td>
+      <td>{{item.price}}</td>
+      <td>{{ item.org_price }}</td>
+      <td>{{ item.quantity }}</td>
+      <td><div style="display: flex;">
+          <form action="{% url 'cart:cart_add_one' item.product.id %}" method="POST">
+                {% csrf_token %}
+            <button type="submit">+</button>
+            </form>
+          {% if item.quantity > 1 %}
+
+
+          <form action="{% url 'cart:cart_remove_one' item.product.id %}" method="POST">
+                {% csrf_token %}
+            <button type="submit">-</button>
+            </form>
+          {% elif item.quantity == 1 %}
+          <form action="{% url 'cart:cart_remove' item.product.id %}" method="POST">
+                {% csrf_token %}
+            <button type="submit">-</button>
+          </form>
+            {% endif %}</div>
+      </td>
+
+      <td><a href="{% url 'product:product_detail' item.slug %}">{{ item.product }}</a></td>
+      <td>
+        {% thumbnail item.product.cover "300x300" as img %}
+                  <img src="{{ img.url }}" class="card-img-top" alt="{{ item.product }}"
+                       style=" width: 100px; height:130px">
+        {% endthumbnail %}
+      </td>
+      <th scope="row">{{ forloop.counter }}</th>
+    </tr>
+  {% endfor %}
+  <tr>
+    <td colspan="1"></td>
+    <td>مبلغ قابل پرداخت
+      <br>
+      {{ cart.get_total_price }}</td>
+
+  </tr>
+
+  </tbody>
+</table>
+{% if not messages and item_quantity != 'empty'%}
+    <h6>انتخاب آدرس</h6>
+    <form method="POST" class="card-body " action="{% url 'order:order_create'  %}">
+         {% csrf_token %}
+      <select class="form-select" aria-label="Default select example" name="my_address"
+      style="text-align-last:center;">
+
+          {% for ad in addresses %}
+
+          <option value={{ad.id}}> آدرس
+            {{forloop.counter}} :
+            {{ad.state}}, {{ad.city}}, {{ad.detail_address}}</option>
+
+          {% endfor %}
+      </select>
+
+        {% if addresses %}
+        <br>
+        <button type="submit" class="btn btn-primary">ثبت سفارش</button>
+        {% endif %}
+    </form>
+  {% endif %}
+  </div>
+{% else %}
+<div style="margin-top:400px">
+<h3 style="text-align:center">سبد خرید خالی است</h3>
+</div>
+
+
+
+{% endif %}
+{% endblock %}
